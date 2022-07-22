@@ -97,6 +97,7 @@ public:
 
   /// Gazebo-ROS node
   gazebo_ros::Node::SharedPtr ros_node_;
+  rclcpp::Clock system_clock_;
 
   /// Publishes simulation time
   rclcpp::Publisher<rosgraph_msgs::msg::Clock>::SharedPtr clock_pub_;
@@ -262,7 +263,7 @@ void GazeboRosInitPrivate::PublishSimTime(const gazebo::common::UpdateInfo & _in
   }
 
   rosgraph_msgs::msg::Clock clock;
-  clock.clock = gazebo_ros::Convert<builtin_interfaces::msg::Time>(_info.simTime);
+  clock.clock = system_clock_.now();
   clock_pub_->publish(clock);
 
 #ifdef GAZEBO_ROS_HAS_PERFORMANCE_METRICS
