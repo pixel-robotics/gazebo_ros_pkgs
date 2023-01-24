@@ -257,6 +257,9 @@ add_library(gazebo_ros_video SHARED
   src/gazebo_ros_video.cpp
 )
 target_include_directories(gazebo_ros_video PUBLIC include)
+if(${cv_bridge_VERSION} VERSION_GREATER_EQUAL 3.3.0)
+  target_compile_options(gazebo_ros_video PRIVATE -DCV_BRIDGE_HAS_HPP_HEADERS)
+endif()
 ament_target_dependencies(gazebo_ros_video
   "gazebo_ros"
   "image_transport"
@@ -538,6 +541,12 @@ install(TARGETS
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 endif()
+
+install(
+  PROGRAMS
+    scripts/wheel_slip_drawbar_pull_publisher.py
+    DESTINATION lib/${PROJECT_NAME}/
+)
 
 install(DIRECTORY
   worlds
