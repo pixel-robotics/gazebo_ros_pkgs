@@ -68,6 +68,9 @@ def generate_launch_description():
         LaunchConfiguration('params_file'),
         # This provides the trailing -- if a params_file is specified.
         _conditional_command('', LaunchConfiguration('params_file')),
+        _conditional_command("ros-args", LaunchConfiguration('ros_arguments')),
+        LaunchConfiguration('ros_arguments'),
+        _conditional_command('', LaunchConfiguration('ros_arguments')),
         LaunchConfiguration('extra_gazebo_args'),
     ]
 
@@ -173,7 +176,10 @@ def generate_launch_description():
             'params_file', default_value='',
             description='Path to ROS 2 yaml parameter file'
         ),
-
+        DeclareLaunchArgument(
+            'ros_arguments', default_value='',
+            description='Ros2 arguments'
+        ),
         # Specific to gazebo_ros
         DeclareLaunchArgument(
             'gdb', default_value='false',
